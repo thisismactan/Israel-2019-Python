@@ -1,12 +1,8 @@
+## Computes current polling average
 exec(open('Code/library.py').read())
 
 ## Read data
 poll_data = pd.ExcelFile('Data/polls.xlsx')
-polls_2009 = pd.read_excel(poll_data, '2009')
-polls_2013 = pd.read_excel(poll_data, '2013')
-polls_2015 = pd.read_excel(poll_data, '2015')
-
-results = pd.read_excel(poll_data, 'Results')
 
 #### 2019 polling average ####
 election_date = dt.date(2019, 4, 9)
@@ -76,8 +72,3 @@ projected_seats = (poll_average_logit
 projected_seats[['lower', 'seats', 'upper']] = (projected_seats[['lower', 'seats', 'upper']]
                                                 .apply(lambda x: x - x*(x < 0.0325))
                                                 .apply(lambda x: 120*x))
-
-## Plotting the current polling average
-ggplot.ggplot(aesthetics = aes(x = 'party', y = 'seats', fill = 'party'), 
-              data = projected_seats) +\
-              ggplot.geom_bar(stat = 'identity')
