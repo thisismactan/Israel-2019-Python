@@ -54,3 +54,22 @@ ideology_seats = (simulations_df.loc[:,['left', 'center', 'center_right', 'right
  .groupby('party')
  .agg(['mean', pctile(5), pctile(25), pctile(50), pctile(75), pctile(95)])
  .iloc[[9, 0, 6, 4, 1, 3, 2, 5, 12, 8, 11, 13, 7, 10],:])
+
+## Which ideological bloc is largest
+(ideology_seats
+ .assign(right_largest = lambda x: x.right > x.center,
+         center_largest = lambda x: x.center > x.right,
+         both_largest = lambda x: x.center == x.right)
+ .loc[:,['right_largest', 'center_largest', 'both_largest']]
+ .melt(var_name = 'bloc', value_name = 'prob')
+ .groupby('bloc')
+ .agg('mean')
+ )
+
+## Breakdown by ideological bloc
+(ideology_seats
+ .melt(var_name = 'bloc', value_name = 'seats')
+ .groupby('bloc')
+ .agg(['mean', pctile(5), pctile(25), pctile(50), pctile(75), pctile(95)])
+ .iloc[[3, 1, 2, 4, 0, 5]]
+ )
