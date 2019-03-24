@@ -15,6 +15,12 @@ def invlogit(x):
     invlogit_x = np.exp(x)/(1 + np.exp(x))
     return invlogit_x
 
+def pctile(n):
+    def pctile_(x):
+        return np.percentile(x, n)
+    pctile_.__name__ = 'pctile_%s' % n
+    return pctile_
+
 def wtd_var(x, weights = None):
     """ Returns the weighted variance of x, weighted by 'weights' argument.
     Defaults to unweighted variance. """
